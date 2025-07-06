@@ -1,10 +1,9 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-import os # Keep the os module import
-from pathlib import Path # Keep Path from pathlib
+from pathlib import Path
+import os
 
-# 📍 Load long-form dataset (after melt)
-# Keeping your absolute path for the input data
+# 📍 Load wide-form dataset
 data_path = "/home/alejandroramirez/Documents/unemploymentML/data/unemployment_rates.csv"
 df = pd.read_csv(data_path)
 
@@ -31,17 +30,17 @@ df_long['Region Code'] = le.fit_transform(df_long['Region Name'])
 # 🧹 Handle missing values
 df_long.dropna(subset=['Unemployment Rate'], inplace=True)
 
-# 📦 Save cleaned dataset
+# 📦 Save full processed dataset with headers (for inspection)
+processed_path = Path("/home/alejandroramirez/Documents/unemploymentML/data/processed_unemployment_data.csv")
+processed_path.parent.mkdir(parents=True, exist_ok=True)
+df_long.to_csv(processed_path, index=False)
 
-# Define the output file path using pathlib and your absolute path
-output_file_path = Path("/home/alejandroramirez/Documents/unemploymentML/data/processed_unemployment_data.csv")
+print(f"✅ Full processed dataset saved to {processed_path}")
 
-# Ensure the parent directory exists.
-# `parents=True` creates any necessary intermediate directories.
-# `exist_ok=True` prevents an error if the directory already exists.
-output_file_path.parent.mkdir(parents=True, exist_ok=True)
+# 📦 Create numeric-only CSV without header for SageMaker
+df_numeric = df_long[['Unemployment Rate', 'Year', 'Month', 'Quarter', 'Region Code']]
 
-# Save the DataFrame
-df_long.to_csv(output_file_path, index=False)
+sagemaker_input_path = Path("/home/alejandroramirez/Documents/unemploymentML/data/sagemaker_input_data.csv")
+df_numeric.to_csv(sagemaker_input_path, index=False, header=False)
 
-print("✅ Preprocessing complete. Processed dataset saved.")
+print(f"✅ Numeric-only CSV for SageMaker saved to {sagemaker_input_path}")

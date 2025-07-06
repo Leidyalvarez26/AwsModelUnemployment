@@ -1,18 +1,18 @@
 # 📦 S3 Bucket for raw data
 resource "aws_s3_bucket" "raw_data_bucket" {
-  bucket = "${var.unemployment-ml}-raw-data"
+  bucket        = "${var.unemployment-ml}-raw-data"
   force_destroy = true
 }
 
 # 📦 S3 Bucket for processed data
 resource "aws_s3_bucket" "processed_data_bucket" {
-  bucket = "${var.unemployment-ml}-processed-data"
+  bucket        = "${var.unemployment-ml}-processed-data"
   force_destroy = true
 }
 
 # 👤 IAM Role for SageMaker
 resource "aws_iam_role" "sagemaker_execution_role" {
-  name = "${var.unemployment-ml}-sagemaker-role"
+  name               = "${var.unemployment-ml}-sagemaker-role"
   assume_role_policy = data.aws_iam_policy_document.sagemaker_assume_role_policy.json
 }
 
@@ -34,6 +34,7 @@ resource "aws_iam_role_policy" "sagemaker_policy" {
   policy = data.aws_iam_policy_document.sagemaker_policy.json
 }
 
+# 📜 IAM Policy for S3 + CloudWatch logs permissions
 data "aws_iam_policy_document" "sagemaker_policy" {
   statement {
     actions = [
@@ -58,3 +59,4 @@ data "aws_iam_policy_document" "sagemaker_policy" {
     resources = ["*"]
   }
 }
+
