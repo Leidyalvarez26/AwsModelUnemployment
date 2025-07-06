@@ -5,3 +5,6 @@ Machine Learning  prroject for Infinitum focused onn predictin unemployment patt
 To start, please paste in the terminal:
 Pip install -r requirements.txt
 
+To upload csv file for th s3 bucket
+aws s3 cp ./data/processed_unemployment_data.csv s3://unemployment-ml-processed-data/processed_unemployment_data.csv
+
