@@ -1,9 +1,10 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-import os # Import the os module
-from pathlib import Path # Import Path from pathlib
+import os # Keep the os module import
+from pathlib import Path # Keep Path from pathlib
 
 # 📍 Load long-form dataset (after melt)
+# Keeping your absolute path for the input data
 data_path = "/home/alejandroramirez/Documents/unemploymentML/data/unemployment_rates.csv"
 df = pd.read_csv(data_path)
 
@@ -32,7 +33,7 @@ df_long.dropna(subset=['Unemployment Rate'], inplace=True)
 
 # 📦 Save cleaned dataset
 
-# Define the output file path using pathlib
+# Define the output file path using pathlib and your absolute path
 output_file_path = Path("/home/alejandroramirez/Documents/unemploymentML/data/processed_unemployment_data.csv")
 
 # Ensure the parent directory exists.
