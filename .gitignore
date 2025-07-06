@@ -1,0 +1,24 @@
+# Terraform-specific ignores
+.terraform/
+.tfplan
+.terraform.lock.hcl
+
+# AWS CLI installer archive (if you downloaded it into the project)
+awscliv2.zip
+
+# AWS CLI extracted contents (if accidentally placed here)
+terraform/aws/dist/
+
+# Python virtual environment
+env/
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# Any other large data files you might generate or download
+*.csv
+*.zip
+*.tar.gz
+# Add exceptions for data files that ARE meant to be tracked if needed
+!data/unemployment_rates.csv
+!data/processed_unemployment_data.csv
