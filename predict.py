@@ -1,23 +1,26 @@
 import boto3
 import json
 
-# Update with your endpoint name
-endpoint_name = 'unemployment-xgboost-endpoint'
+runtime = boto3.client("sagemaker-runtime", region_name="us-east-1")
 
-# Sample data — same order and type as your training CSV columns:
-# ['Unemployment Rate', 'Year', 'Month', 'Quarter', 'Region Code']
-payload = '2025,7,3,25'  # Example: predicting based on those inputs
+endpoint_name = "unemployment-xgboost-endpoint"
 
-# Create SageMaker runtime client
-runtime = boto3.client('sagemaker-runtime', region_name='us-east-1')
+# 📝 List of feature vectors: [Year, Month, Quarter, Region_Code]
+payloads = [
+    "2025,7,3,25",
+    "2025,8,3,25",
+    "2025,9,3,25",
+    "2025,10,4,25",
+    "2026,1,1,25"
+]
 
-# Invoke endpoint
-response = runtime.invoke_endpoint(
-    EndpointName=endpoint_name,
-    ContentType='text/csv',
-    Body=payload
-)
+for payload in payloads:
+    response = runtime.invoke_endpoint(
+        EndpointName=endpoint_name,
+        ContentType="text/csv",
+        Body=payload
+    )
 
-# Decode result
-result = response['Body'].read().decode('utf-8')
-print("✅ Prediction result:", result)
+    result = json.loads(response["Body"].read().decode())
+    print(f"Prediction for {payload}: {result}")
+

@@ -1,18 +1,18 @@
 # 📦 S3 Bucket for raw data
 resource "aws_s3_bucket" "raw_data_bucket" {
-  bucket        = "${var.unemployment-ml}-raw-data"
+  bucket        = "${var.unemployment_ml}-raw-data"
   force_destroy = true
 }
 
 # 📦 S3 Bucket for processed data
 resource "aws_s3_bucket" "processed_data_bucket" {
-  bucket        = "${var.unemployment-ml}-processed-data"
+  bucket        = "${var.unemployment_ml}-processed-data"
   force_destroy = true
 }
 
 # 👤 IAM Role for SageMaker
 resource "aws_iam_role" "sagemaker_execution_role" {
-  name               = "${var.unemployment-ml}-sagemaker-role"
+  name               = "${var.unemployment_ml}-sagemaker-role"
   assume_role_policy = data.aws_iam_policy_document.sagemaker_assume_role_policy.json
 }
 
@@ -60,30 +60,38 @@ data "aws_iam_policy_document" "sagemaker_policy" {
   }
 }
 
+# 📦 SageMaker model resource (conditional)
 resource "aws_sagemaker_model" "unemployment_xgboost_model" {
+  count              = var.create_model ? 1 : 0
   name               = "unemployment-xgboost-model"
   execution_role_arn = aws_iam_role.sagemaker_execution_role.arn
 
   primary_container {
     image           = "811284229777.dkr.ecr.us-east-1.amazonaws.com/xgboost:latest"
-    model_data_url  = "s3://unemployment-ml-processed-data/model-artifacts/unemployment-xgboost-train-1751781622/output/model.tar.gz"
+    model_data_url  = var.model_data_url
   }
 }
 
+# 📦 SageMaker endpoint config (conditional)
 resource "aws_sagemaker_endpoint_configuration" "unemployment_endpoint_config" {
-  name = "unemployment-xgboost-endpoint-config"
+  count = var.create_model ? 1 : 0
+  name  = "unemployment-xgboost-endpoint-config"
 
   production_variants {
     variant_name           = "AllTraffic"
-    model_name             = aws_sagemaker_model.unemployment_xgboost_model.name
+    model_name             = aws_sagemaker_model.unemployment_xgboost_model[0].name
     initial_instance_count = 1
     instance_type          = "ml.t2.medium"
   }
 }
 
+# 📦 SageMaker endpoint (conditional)
 resource "aws_sagemaker_endpoint" "unemployment_endpoint" {
-  name               = "unemployment-xgboost-endpoint"
-  endpoint_config_name = aws_sagemaker_endpoint_configuration.unemployment_endpoint_config.name
+  count                = var.create_model ? 1 : 0
+  name                 = "unemployment-xgboost-endpoint"
+  endpoint_config_name = aws_sagemaker_endpoint_configuration.unemployment_endpoint_config[0].name
 }
+
+
 
 
