@@ -11,6 +11,8 @@ terraform/aws/dist/
 
 # Python virtual environment
 env/
+.venv/
+venv/
 
 # Jupyter notebooks checkpoints
 .ipynb_checkpoints/
