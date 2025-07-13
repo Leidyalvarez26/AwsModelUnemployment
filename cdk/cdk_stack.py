@@ -27,14 +27,14 @@ class UnemploymentMLStack(Stack):
         # Expose role ARN
         CfnOutput(self, "SageMakerExecutionRoleArn", value=role.role_arn)
 
-        # 📦 Define model artifact location (use your real training job path here)
-        model_data_url="s3://unemployment-ml-processed-data/model-artifacts/unemployment-xgboost-train-1752424547/output/model.tar.gz"
+        # 📦 Define model artifact location (from your successful training job)
+        model_data_url = "s3://unemployment-ml-processed-data/model-artifacts/pipelines-908jgu1dn7xz-UnemploymentMLTraini-eyv470hBI9/output/model.tar.gz"
 
-        # 📦 SageMaker model
+        # 📦 SageMaker model with correct image
         model = sagemaker.CfnModel(self, "XGBoostModel",
                                    execution_role_arn=role.role_arn,
                                    primary_container=sagemaker.CfnModel.ContainerDefinitionProperty(
-                                       image="811284229777.dkr.ecr.us-east-1.amazonaws.com/xgboost:latest",
+                                       image="683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-xgboost:1.5-1",
                                        model_data_url=model_data_url
                                    ))
 
@@ -43,7 +43,7 @@ class UnemploymentMLStack(Stack):
                                                       production_variants=[
                                                           sagemaker.CfnEndpointConfig.ProductionVariantProperty(
                                                               initial_instance_count=1,
-                                                              instance_type="ml.t2.medium",
+                                                              instance_type="ml.m5.large",
                                                               model_name=model.attr_model_name,
                                                               variant_name="AllTraffic"
                                                           )
@@ -52,4 +52,3 @@ class UnemploymentMLStack(Stack):
         # 📦 Endpoint
         sagemaker.CfnEndpoint(self, "SageMakerEndpoint",
                               endpoint_config_name=endpoint_config.attr_endpoint_config_name)
-

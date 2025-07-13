@@ -36,8 +36,8 @@
      ]
     },
     "PrimaryContainer": {
-     "Image": "811284229777.dkr.ecr.us-east-1.amazonaws.com/xgboost:latest",
-     "ModelDataUrl": "s3://unemployment-ml-processed-data/model-artifacts/unemployment-xgboost-train-1752424547/output/model.tar.gz"
+     "Image": "683313688378.dkr.ecr.us-east-1.amazonaws.com/sagemaker-xgboost:1.5-1",
+     "ModelDataUrl": "s3://unemployment-ml-processed-data/model-artifacts/pipelines-908jgu1dn7xz-UnemploymentMLTraini-eyv470hBI9/output/model.tar.gz"
     }
    },
    "Metadata": {
@@ -50,7 +50,7 @@
     "ProductionVariants": [
      {
       "InitialInstanceCount": 1,
-      "InstanceType": "ml.t2.medium",
+      "InstanceType": "ml.m5.large",
       "ModelName": {
        "Fn::GetAtt": [
         "XGBoostModel",
