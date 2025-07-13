@@ -1,5 +1,5 @@
-aws-cdk-lib>=2.130.0
-constructs>=10.0.0
+aws-cdk-lib==2.130.0  # Pin to a specific, stable CDK version
+constructs==10.3.0    # Pin to a compatible constructs version (often the latest 10.x.x)
 boto3
 pandas
 sagemaker

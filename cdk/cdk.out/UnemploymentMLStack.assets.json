@@ -1,0 +1,20 @@
+{
+  "version": "45.0.0",
+  "files": {
+    "8d2c3770a07b9685b93be73b8b73eb1085b1a6809160b674342cc82fbafcd230": {
+      "displayName": "UnemploymentMLStack Template",
+      "source": {
+        "path": "UnemploymentMLStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "8d2c3770a07b9685b93be73b8b73eb1085b1a6809160b674342cc82fbafcd230.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

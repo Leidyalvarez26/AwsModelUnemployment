@@ -1,0 +1,108 @@
+{
+  "version": "45.0.0",
+  "artifacts": {
+    "UnemploymentMLStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "UnemploymentMLStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "UnemploymentMLStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "UnemploymentMLStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/8d2c3770a07b9685b93be73b8b73eb1085b1a6809160b674342cc82fbafcd230.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "UnemploymentMLStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "UnemploymentMLStack.assets"
+      ],
+      "metadata": {
+        "/UnemploymentMLStack/RawDataBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RawDataBucket57F26C03"
+          }
+        ],
+        "/UnemploymentMLStack/ProcessedDataBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessedDataBucket4E25D3B7"
+          }
+        ],
+        "/UnemploymentMLStack/SageMakerExecutionRoleArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SageMakerExecutionRoleArn"
+          }
+        ],
+        "/UnemploymentMLStack/XGBoostModel": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "XGBoostModel"
+          }
+        ],
+        "/UnemploymentMLStack/EndpointConfig": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EndpointConfig"
+          }
+        ],
+        "/UnemploymentMLStack/SageMakerEndpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SageMakerEndpoint"
+          }
+        ],
+        "/UnemploymentMLStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/UnemploymentMLStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/UnemploymentMLStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/UnemploymentMLStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "UnemploymentMLStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  },
+  "minimumCliVersion": "2.1020.2"
+}
