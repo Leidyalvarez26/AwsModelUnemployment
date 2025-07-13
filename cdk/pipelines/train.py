@@ -5,10 +5,10 @@ import sagemaker
 
 def get_training_step(role, pipeline_session, processed_data_uri, model_output_uri):
     estimator = Estimator(
-        image_uri="811284229777.dkr.ecr.us-east-1.amazonaws.com/xgboost:latest",
+        image_uri="811284229777.dkr.ecr.us-east-1.amazonaws.com/xgboost:1.7-1",
         role=role,
         instance_count=1,
-        instance_type="ml.m5.large",
+        instance_type="ml.t3.medium",
         output_path=model_output_uri,
         sagemaker_session=pipeline_session,
         hyperparameters={

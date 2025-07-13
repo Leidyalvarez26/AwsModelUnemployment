@@ -37,7 +37,7 @@
     },
     "PrimaryContainer": {
      "Image": "811284229777.dkr.ecr.us-east-1.amazonaws.com/xgboost:latest",
-     "ModelDataUrl": "s3://unemployment-ml-processed-data/model-artifacts/unemployment-xgboost-train-1752372725/output/model.tar.gz"
+     "ModelDataUrl": "s3://unemployment-ml-processed-data/model-artifacts/unemployment-xgboost-train-1752424547/output/model.tar.gz"
     }
    },
    "Metadata": {

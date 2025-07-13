@@ -1,39 +1,48 @@
 from sagemaker.workflow.pipeline import Pipeline
 from sagemaker.workflow.parameters import ParameterString
 from sagemaker.workflow.pipeline_context import PipelineSession
-from .preprocess import get_preprocessing_step
-from .train import get_training_step
+from pipelines.preprocess_step_config import get_preprocessing_step
+from pipelines.train import get_training_step
 
-def create_pipeline(role):
-
+def create_pipeline(role_arn):
+    # Initialize session
     pipeline_session = PipelineSession()
-
-    # Parameters for paths
+    
+    # Define parameters
     raw_data_uri = ParameterString(
         name="RawDataUri",
-        default_value="s3://unemployment-ml-processed-data/unemployment_data.csv"
+        default_value="s3://unemployment-ml-processed-data/sagemaker_input_data.csv"
     )
-
-    processed_data_uri = "s3://unemployment-ml-processed-data/processed/"
-    model_output_uri = "s3://unemployment-ml-processed-data/model-artifacts/"
-
-    # Preprocessing step
+    processed_data_uri = ParameterString(
+        name="ProcessedDataUri",
+        default_value="s3://unemployment-ml-processed-data"
+    )
+    model_output_uri = ParameterString(
+        name="ModelOutputUri",
+        default_value="s3://unemployment-ml-processed-data/model-artifacts"
+    )
+    
+    # Steps
     preprocessing_step = get_preprocessing_step(
-        role, pipeline_session, raw_data_uri, processed_data_uri
+        role=role_arn,
+        pipeline_session=pipeline_session,
+        raw_data_uri=raw_data_uri,
+        output_data_uri=processed_data_uri
     )
-
-    # Training step
+    
     training_step = get_training_step(
-        role, pipeline_session, processed_data_uri, model_output_uri
+        role=role_arn,
+        pipeline_session=pipeline_session,
+        processed_data_uri=processed_data_uri,
+        model_output_uri=model_output_uri
     )
-
-    # Define Pipeline
+    
+    # Pipeline assembly
     pipeline = Pipeline(
         name="UnemploymentMLPipeline",
-        parameters=[raw_data_uri],
         steps=[preprocessing_step, training_step],
+        parameters=[raw_data_uri, processed_data_uri, model_output_uri],
         sagemaker_session=pipeline_session
     )
-
+    
     return pipeline
-

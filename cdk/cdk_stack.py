@@ -28,7 +28,7 @@ class UnemploymentMLStack(Stack):
         CfnOutput(self, "SageMakerExecutionRoleArn", value=role.role_arn)
 
         # 📦 Define model artifact location (use your real training job path here)
-        model_data_url="s3://unemployment-ml-processed-data/model-artifacts/unemployment-xgboost-train-1752372725/output/model.tar.gz"
+        model_data_url="s3://unemployment-ml-processed-data/model-artifacts/unemployment-xgboost-train-1752424547/output/model.tar.gz"
 
         # 📦 SageMaker model
         model = sagemaker.CfnModel(self, "XGBoostModel",
