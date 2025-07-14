@@ -106,6 +106,9 @@ Expected output:
 
 Predicted result: 4.19...
 
+docker run -v ~/.aws:/root/.aws -p 5000:5000 -e SAGEMAKER_ENDPOINT_NAME=your-real-endpoint-name unemployment-predictor
+
+
 🧹 Clean Up Resources
 
 To safely tear down and clean:

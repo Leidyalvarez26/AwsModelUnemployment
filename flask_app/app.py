@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import boto3
 from botocore.exceptions import ClientError
+import os
 
 app = Flask(__name__)
 
@@ -8,7 +9,7 @@ app = Flask(__name__)
 runtime = boto3.client("sagemaker-runtime", region_name="us-east-1")
 
 # 📌 Hardcoded endpoint name (or make configurable)
-ENDPOINT_NAME = "SageMakerEndpoint-asoVIzNLjgal"
+ENDPOINT_NAME = "SageMakerEndpoint-j7lFiQe4UebR"
 
 @app.route("/", methods=["GET", "POST"])
 def index():
