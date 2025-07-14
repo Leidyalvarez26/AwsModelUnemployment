@@ -9,7 +9,7 @@ app = Flask(__name__)
 runtime = boto3.client("sagemaker-runtime", region_name="us-east-1")
 
 # 📌 Hardcoded endpoint name (or make configurable)
-ENDPOINT_NAME = "SageMakerEndpoint-j7lFiQe4UebR"
+ENDPOINT_NAME = "SageMakerEndpoint-iLsuBs92FvnF"
 
 @app.route("/", methods=["GET", "POST"])
 def index():

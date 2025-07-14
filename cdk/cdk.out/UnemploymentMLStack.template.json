@@ -79,10 +79,85 @@
     "aws:cdk:path": "UnemploymentMLStack/SageMakerEndpoint"
    }
   },
+  "UnemploymentDatabase": {
+   "Type": "AWS::Glue::Database",
+   "Properties": {
+    "CatalogId": {
+     "Ref": "AWS::AccountId"
+    },
+    "DatabaseInput": {
+     "Name": "unemployment_data"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "UnemploymentMLStack/UnemploymentDatabase"
+   }
+  },
+  "ProcessedDataTable": {
+   "Type": "AWS::Glue::Table",
+   "Properties": {
+    "CatalogId": {
+     "Ref": "AWS::AccountId"
+    },
+    "DatabaseName": {
+     "Ref": "UnemploymentDatabase"
+    },
+    "TableInput": {
+     "Name": "processed_unemployment_data",
+     "Parameters": {
+      "classification": "csv"
+     },
+     "StorageDescriptor": {
+      "Columns": [
+       {
+        "Name": "unemployment_rate",
+        "Type": "double"
+       },
+       {
+        "Name": "year",
+        "Type": "int"
+       },
+       {
+        "Name": "month",
+        "Type": "int"
+       },
+       {
+        "Name": "quarter",
+        "Type": "int"
+       }
+      ],
+      "InputFormat": "org.apache.hadoop.mapred.TextInputFormat",
+      "Location": {
+       "Fn::Join": [
+        "",
+        [
+         "s3://",
+         {
+          "Ref": "ProcessedDataBucket4E25D3B7"
+         },
+         "/processed/"
+        ]
+       ]
+      },
+      "OutputFormat": "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat",
+      "SerdeInfo": {
+       "Parameters": {
+        "separatorChar": ","
+       },
+       "SerializationLibrary": "org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe"
+      }
+     },
+     "TableType": "EXTERNAL_TABLE"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "UnemploymentMLStack/ProcessedDataTable"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02JQQ6CMBAA38K9rFh8gY1Ho8EHmFq2WAtbQrchpunfDeHiaSYzEmRzgqbSa6xN7+vRvSA/WBsv9BqfObaQz8l4ZKEs7VZE1ANO2uMCWVm6hh7HbV+on4MjVoGsG/5LKaLDGNJicMu3xHPiIu5ffgc6tHCU0Faf6Fy9JGI3IXQ7f/rTtD+gAAAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02KQQ6CMBBFz+K+jAieQHRpNOjeDGXA2tISOg0xTe9ugI2r//LeL6DIj5DvcPaZbHVmVAPxwSi1wNm/oi8hnoLUxKLq7EZJeOxpQE0TxKqzV9eSWfLFtqNTlitnO9X/myR6E2h9n5GxQU9LfmJjKCVRk3dhkqu7BR4DJ3H/8tvZfQmHAsrdxyuVTcGyGgjqbX8AZ7CsvAAAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "UnemploymentMLStack/CDKMetadata/Default"
@@ -107,6 +182,11 @@
       ":role/unemployment-ml-sagemaker-role"
      ]
     ]
+   }
+  },
+  "GlueDatabaseName": {
+   "Value": {
+    "Ref": "UnemploymentDatabase"
    }
   }
  },
