@@ -5,3 +5,4 @@ pandas
 sagemaker
 scikit-learn
 xgboost
+Flask
