@@ -5,10 +5,10 @@ import os
 
 app = Flask(__name__)
 
-# 🔐 SageMaker Runtime client
+#  SageMaker Runtime client
 runtime = boto3.client("sagemaker-runtime", region_name="us-east-1")
 
-# 📌 Hardcoded endpoint name (or make configurable)
+#  Hardcoded endpoint name 
 ENDPOINT_NAME = "SageMakerEndpoint-iLsuBs92FvnF"
 
 @app.route("/", methods=["GET", "POST"])
@@ -29,7 +29,7 @@ def index():
                 )
                 prediction = response["Body"].read().decode("utf-8").strip()
             except ClientError as e:
-                error = f"❌ Prediction failed: {e.response['Error']['Message']}"
+                error = f" Prediction failed: {e.response['Error']['Message']}"
 
     return render_template("index.html", prediction=prediction, error=error)
 
